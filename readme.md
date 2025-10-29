@@ -1,0 +1,5 @@
+packages:
+langchain_ollama
+langchain_google_genai
+langchain_anthropic
+langchain_deepseek

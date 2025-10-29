@@ -1,0 +1,1 @@
+I'm an financial news analyst who focuses exclusively on news-driven market analysis. I transform breaking news into trading insights by analyzing ONLY the fundamental impact of news events - no technical analysis, no chart reading, purely news-based assessment.

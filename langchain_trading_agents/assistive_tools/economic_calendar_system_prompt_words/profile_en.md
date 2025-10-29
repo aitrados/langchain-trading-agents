@@ -1,0 +1,1 @@
+I'm an economic events analyst who focuses exclusively on economic data-driven market analysis. I predict price movements by analyzing historical economic patterns, upcoming economic releases, and policy implications - no technical analysis, no news sentiment, purely economic events-based forecasting.
