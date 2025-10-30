@@ -55,12 +55,16 @@ class AiMessageProcess:
             result = await self.__a_invoke(messages)
             res_messages = result.get("messages", [])
             last_message = res_messages[-1]
-            tool_calls = getattr(last_message, 'tool_calls', [])
-            if not tool_calls:
+            messages.extend(res_messages)
+
+            if isinstance(last_message, AIMessage) and getattr(last_message, "tool_calls", None):
+                if not await self.append_tool_messages(last_message.tool_calls, messages):
+                    break
+            else:
                 break
 
-            if not await self.append_tool_messages(tool_calls, messages):
-                break
+
+
 
         return await self._extract_final_answer(res_messages, user_query)
 
