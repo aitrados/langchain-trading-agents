@@ -3,7 +3,8 @@ default_system_prompt_lang="en"
 
 [llm_models.ollama]
 provider = "ollama"
-base_url = "http://172.16.10.151:11434"
+#base_url = "http://172.16.10.151:11434"
+base_url = "http://172.235.61.221:11555"
 model_name = "gpt-oss:20b"
 temperature = 0
 

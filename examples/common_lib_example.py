@@ -17,7 +17,7 @@ def run_MyAsyncSubscribe():
     subscriber = MyAsyncSubscriber()
     subscriber.run(is_thread=True)
     #To ensure that complete chat content can be collected, first ensure the subscription is fully activated.
-    print("running AsyncSubscribe")
+    print("running AsyncSubscribe.you can find reports in ./conversation_record/**.md")
     sleep(0.1)
     subscriber.subscribe_topics(LLM_CONVERSATION_SUB_TOPIC)
     from aitrados_api.trade_middleware_service.trade_middleware_identity import aitrados_api_identity

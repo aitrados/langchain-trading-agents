@@ -183,7 +183,7 @@ class AiBusControl(BusControlMixin):
             return {"decision_maker_summary": "Failed to generate any analysis results from sub agents."}
 
         manager_collected_reports = "\n\n".join(
-            [f"From [{item['department']}] Analysis:\n{item['result']}" for item in sub_agent_results]
+            [f"From [{item['department']}] department analysis:\n{item['result']}\n\n" for item in sub_agent_results]
         )
 
         self.decision_maker_analyst.placeholder_map["manager_collected_reports"]=manager_collected_reports

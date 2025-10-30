@@ -163,7 +163,7 @@ class BaseSubAgent:
         if _is_append("available_agent_profiles"):
             available_agent_profiles=""
             for agent in self._bus_control.sub_agent_registry.values():
-                available_agent_profiles+=f"#### {agent.department} department:\n {agent.profile}"
+                available_agent_profiles+=f"### {agent.department} department:\n {agent.profile}\n\n"
 
             self.placeholder_map["available_agent_profiles"] = available_agent_profiles
             pass

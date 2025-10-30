@@ -1,0 +1,62 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+# --- Required Fields ---
+# The name users will use to install your package via pip.
+name = "langchain-trading-agents"
+# The initial version of your package. You must increment this for every new release.
+version = "0.0.10"
+
+# --- Recommended Fields ---
+authors = [
+  { name="Alexander", email="support@aitrados.com" },
+]
+description = "ai trading agents driven by langchain,Simulates real-world financial company departments(manager,news,traditional indicator,price_action,economic_calendar,decision maker) free real-time and historical financial market data via HTTP and WebSocket APIs.specifically designed for AI quantitative trading/training.Multiple Timeframes,Multiple-Symbols-Multiple-Timeframes Alignment"
+# Points to your README file for the long description on PyPI.
+readme = "README.md"
+# Specifies the Python versions your project supports.
+requires-python = ">=3.10"
+# Specifies the license of your project.
+license = { text = "MIT License" }
+
+keywords = ["aitrados","langchain","trade agents","trading agents","financial", "api","streaming ohlc","ai trade" ,"ai trading","ai trading",  "quantitative","ws ohlc","websockes ohlc", "AI", "market-data","ohlc","ohlcv", "real-time"]
+
+# --- Classifiers for PyPI ---
+# These help users find your project.
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+        "Environment :: Console",
+    "Environment :: Web Environment",
+]
+
+# --- Dependencies ---
+# A list of other packages that your project needs to run.
+dependencies = [
+    "finance-trading-ai-agents-mcp",
+]
+
+# --- Project URLs ---
+# These links will be displayed on your PyPI project page.
+[project.urls]
+"Homepage" = "https://github.com/aitrados/langchain-trading-agents"
+"Bug Tracker" = "https://github.com/aitrados/langchain-trading-agents/issues"
+"Repository" = "https://github.com/aitrados/langchain-trading-agents"
+"Documentation" = "https://github.com/aitrados/langchain-trading-agents"
+
+[tool.hatch.build.targets.wheel]
+packages = ["langchain_trading_agents"]

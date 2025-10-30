@@ -9,9 +9,13 @@ async def main():
 
 
 
-    manager_ai.add_sub_agent(IndicatorAnalyst(**model_config),PriceActionAnalyst(**model_config))
-
-    result:GraphState=await manager_ai.a_analyze("Please analyze for me how I should trade Bitcoin in the next few days.")
+    manager_ai.add_sub_agent(IndicatorAnalyst(**model_config),
+                             PriceActionAnalyst(**model_config),
+                             NewsAnalyst(**model_config),
+                             EventAnalyst(**model_config),
+                             )
+    ask="Please analyze for me how I should trade Bitcoin in the next few days."
+    result:GraphState=await manager_ai.a_analyze(ask)
 
     print("Analysis results:\n")
     print(result)

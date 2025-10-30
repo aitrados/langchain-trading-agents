@@ -13,14 +13,6 @@ class PriceActionAnalyst(BaseSubAgent):
     nickname="Edward Sterling"
     department=analysis_department.PRICE_ACTION
 
-
-class ManagerAnalyst(BaseSubAgent):
-    nickname="Benjamin Frost"
-    department=analysis_department.MANAGER
-class DecisionMakerAnalyst(BaseSubAgent):
-    nickname="MR. Nightingale"
-    department=analysis_department.DECISION_MAKER
-
 class NewsAnalyst(BaseSubAgent):
     nickname="QIANG WANG"
     department=analysis_department.NEWS
@@ -31,3 +23,9 @@ class EventAnalyst(BaseSubAgent):
 
 
 
+class ManagerAnalyst(BaseSubAgent):
+    nickname="Benjamin Frost"
+    department=analysis_department.MANAGER
+class DecisionMakerAnalyst(BaseSubAgent):
+    nickname="MR. Nightingale"
+    department=analysis_department.DECISION_MAKER
