@@ -11,7 +11,7 @@ async def main():
                              NewsAnalyst(**model_config),
                              EventAnalyst(**model_config),
                              )
-    ask="Please analyze for me how I should trade Bitcoin in the next few days."
+    ask="Please help me analyze how I should trade Bitcoin over the next few days, using daily and hourly charts, traditional indicators, and support and resistance levels. I'm looking at larger timeframes to trade smaller ones. Also, could you please analyze the news and financial events and advise me on how to trade over the next 2-3 days?."
     result:GraphState=await manager_ai.a_analyze(ask)
 
     print("Analysis results:\n")

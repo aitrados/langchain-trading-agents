@@ -13,16 +13,17 @@ from loguru import logger
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage, ToolMessage
 
 from langchain_trading_agents.contant import ConvMessageType, ModelProvider
+def get_langfuse_handler():
+    try:
+        if os.getenv("LANGFUSE_SECRET_KEY", None) and os.getenv("LANGFUSE_PUBLIC_KEY", None) and os.getenv(
+                "LANGFUSE_BASE_URL", None):
+            from langchain_trading_agents.llm_model.langfuse_instance import langfuse_handler
+        else:
+            langfuse_handler = None
 
-try:
-    if os.getenv("LANGFUSE_SECRET_KEY", None) and os.getenv("LANGFUSE_PUBLIC_KEY", None) and os.getenv(
-            "LANGFUSE_BASE_URL", None):
-        from langchain_trading_agents.llm_model.langfuse_instance import langfuse_handler
-    else:
+    except:
         langfuse_handler = None
-
-except:
-    langfuse_handler = None
+    return langfuse_handler
 
 
 class AiMessageProcess:
@@ -31,12 +32,29 @@ class AiMessageProcess:
         self.client = client
         self.fun_call_count = 0
         self.conversation_id: str = None
+        self.langfuse_handler=get_langfuse_handler()
 
     async def __a_invoke(self, messages: list):
         try:
-            if langfuse_handler:
-                result = await self.sub_agent._agent.ainvoke({"messages": messages},
-                                                             config={"callbacks": [langfuse_handler]})
+            if self.langfuse_handler:
+                config = {
+                    "callbacks": [self.langfuse_handler],
+                    "metadata": {
+                        "conversation_id": self.conversation_id,
+                        "agent_department": self.sub_agent.department,
+                        "agent_nickname": self.sub_agent.nickname,
+                        "provider": self.sub_agent.provider,
+                        "model_name": self.sub_agent.model_name
+                    },
+                    "tags": [
+                        f"conversation:{self.conversation_id}",
+                        f"department:{self.sub_agent.department}",
+                        f"nickname:{self.sub_agent.nickname}",
+                        f"provider:{self.sub_agent.provider}"
+                    ]
+                }
+                result = await self.sub_agent._agent.ainvoke({"messages": messages}, config=config)
+
             else:
                 result = await self.sub_agent._agent.ainvoke({"messages": messages})
             return result
