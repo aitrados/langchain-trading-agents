@@ -4,7 +4,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![PyPI version](https://badge.fury.io/py/langchain-trading-agents.svg)](https://badge.fury.io/py/langchain-trading-agents)
 
-A powerful AI trading agents platform built on LangChain that provides FREE real-time and historical financial market data, designed for AI quantitative trading and training. Using a multi-agent collaboration system, it simulates how different departments of a real financial company operate to provide comprehensive intelligent analysis for your trading decisions.
+An AI trading agents platform built on LangChain that provides free real-time and historical market data, supports multi-role collaboration and auditable conversation records. Quick to get started, suitable for quantitative learning, strategy development, and validation.
 
 `langchain-trading-agents` is an entry-level toolkit that helps newcomers quickly learn how multi-agent collaboration works in financial scenarios. It uses intuitive API names and integrates free real-time data features from `finance-trading-ai-agents-mcp` and `aitrados-api`.
 
@@ -48,11 +48,27 @@ pip install langchain-trading-agents
 ```
 
 ### Save your `.env` to the project root
-
+```shell
+##Free Register at AiTrados website https://www.aitrados.com/ to get your API secret key (Free).
+AITRADOS_SECRET_KEY=YOUR_SECRET_KEY
+DEBUG=true
+```
+More environment variables:
 [.env_example](https://github.com/aitrados/langchain-trading-agents/blob/main/env_example)
 
 ### Save `config.toml` to the project root
+```shell
+default_system_prompt_lang="en"
+[llm_models]
+    [llm_models.ollama]
+    provider = "ollama"
+    base_url = "http://127.0.0.1:11434"
+    model_name = "gpt-oss:20b" #Required support call tools
+    temperature = 0
 
+    #more providers below
+```
+More toml configurations:
 [config_example.toml](https://github.com/aitrados/langchain-trading-agents/blob/main/config_example.toml)
 
 
@@ -62,7 +78,7 @@ pip install langchain-trading-agents
 
 ```bash
 # Auto-detect .env file
-python -m finance-trading-ai-agents-mcp  # or: finance-trading-ai-agents-mcp
+finance-trading-ai-agents-mcp
 
 # Specify .env file path
 finance-trading-ai-agents-mcp --env-file .env
@@ -76,22 +92,19 @@ model_config = get_llm_model_config(ModelProvider.OLLAMA)
 
 async def main():
     query = (
-        "Please provide me with the daily and hourly charts for Bitcoin. Find the recent candlestick chart's "
-        "resistance and support levels, and tell me the highest or lowest price at each level. I need your "
-        "entry and exit points on these smaller timeframes. When answering, please be concise and provide "
-        "specific prices for buy and sell orders. Avoid vague answers, as they will influence my AI's decision-making process."
+        "Please analyze the daily and hourly charts for Bitcoin for the next few days. Identify the recent resistance and support levels on the candlestick charts, and tell me the corresponding high and low prices for each level, along with specific buy and sell prices. Please provide a concise and clear answer."
     )
-    more_params = {
-        "role_prompt": None,
-        "profile": None,
-        "nickname": None,
-        "system_prompt_lang": None,
-        "role_prompt_file_or_url": None,
-        "profile_file_or_url": None,
-        "placeholder_map": None,
-        "output_parser": None,
+    model_config_more_params={
+        "role_prompt": None,#Custom system prompt
+        "profile": None,#Custom Self-introduction.The manager needs to know my skills and then assign me tasks.
+        "nickname": None,#Custom name
+        "system_prompt_lang": None,#Language of system prompt.Specify langchain_trading_agents/assistive_tools/*system_prompt_words folder
+        "role_prompt_file_or_url": None,#you can Custom system prompt from a file or url.
+        "profile_file_or_url": None,#  Custom Self-introduction from a file or url.
+        "placeholder_map": None,#Automatic replace role_prompt and profile {placeholder}
+        "output_parser":None #parser instance.auto parse JSON,STR,XML,LIST class name.Optional[JsonOutputParser|StrOutputParser|ListOutputParser|XMLOutputParser].only use for sub agent.
     }
-    # model_config.update(more_params)
+    #model_config.update(model_config_more_params)
     indicator_analyst_llm = PriceActionAnalyst(**model_config)
     result = await indicator_analyst_llm.analyze(query)
     print("Analysis results:\n", result)
@@ -103,6 +116,9 @@ if __name__ == "__main__":
     # Wait briefly for asynchronous conversation-record writing to finish
     sleep(0.8)
 ```
+
+
+
 
 ### Example: Multi-agent (AI BUS) collaborative analysis
 
@@ -134,6 +150,49 @@ if __name__ == "__main__":
     # Wait briefly for asynchronous conversation-record writing to finish
     sleep(0.8)
 ```
+
+### Analyst Custom parameters
+
+Parameters:
+- role_prompt (str | None) — Default: None
+  - Description: Custom system prompt guiding the model's overall behavior. May include placeholders (see above).
+  - Example: "You are a trading assistant specialized in technical analysis."
+
+- profile (str | None) — Default: None
+  - Description: Sub-agent self-introduction / capability description for task assignment. May include placeholders.
+  - Example: "I am an Experienced indicator analyst, familiar with MACD and RSI."
+
+- nickname (str | None) — Default: None
+  - Description: Display name used in sessions/logs.
+  - Example: "IndicatorBot-v1"
+
+- system_prompt_lang (str | None) — Default: None
+  - Description: Language code  to select prompts from langchain_trading_agents/assistive_tools/*system_prompt_words.
+  - Example: "en" or "zh-cn"
+
+- role_prompt_file_or_url (str | None) — Default: None
+  - Description: Path or URL to load role_prompt from (overrides role_prompt if provided).
+  - Example: "/path/to/role_prompt.md" or "https://example.com/role_prompt.txt"
+
+- profile_file_or_url (str | None) — Default: None
+  - Description: Path or URL to load profile from (overrides profile if provided).
+  - Example: "/path/to/profile.md" or "https://example.com/profile.txt"
+
+- placeholder_map (dict | None) — Default: None
+  - Description: Mapping for placeholder replacement (keys without braces, values are replacement strings or callables).
+    - Example: \{"current_datetime": "2025-10-31 12:00:00", "available_agent_profiles": "- Analyst\n- Trader"\}
+    - If the role_prompt or profile contains any of the following placeholders, they will be automatically replaced:
+      - {basic_system_function_call_prompt}
+      - {all_traditional_indicator_names}
+      - {available_agent_profiles}
+      - {current_datetime}
+
+
+- output_parser (instance | str | None) — Default: None
+  - Description: Parser instance or class name for parsing sub-agent output (e.g., JsonOutputParser, StrOutputParser). Only used for sub-agents.
+  - Example: JsonOutputParser(),StrOutputParser()
+
+
 
 ## 🏗️ Architecture Benefits
 

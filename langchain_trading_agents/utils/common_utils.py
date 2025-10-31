@@ -17,4 +17,8 @@ def auto_load_global_config():
 def get_llm_model_config(provider=ModelProvider.OPENAI,default=None):
     auto_load_global_config()
     path=f"llm_models..{provider}"
-    return deepcopy(get_value_by_dict_path(TomlManager.c,path,default,split_str=".."))
+    data=deepcopy(get_value_by_dict_path(TomlManager.c, path, default, split_str=".."))
+    if not data:
+        raise Exception(f"llm model provider {provider} not found in config.toml")
+
+    return data

@@ -13,7 +13,7 @@ version = "0.0.10"
 authors = [
   { name="Alexander", email="support@aitrados.com" },
 ]
-description = "ai trading agents driven by langchain,Simulates real-world financial company departments(manager,news,traditional indicator,price_action,economic_calendar,decision maker) free real-time and historical financial market data via HTTP and WebSocket APIs.specifically designed for AI quantitative trading/training.Multiple Timeframes,Multiple-Symbols-Multiple-Timeframes Alignment"
+description = "AI trading agents driven by langchain,Simulates real-world financial company departments(manager,news,traditional indicator,price_action,economic_calendar,decision maker) free real-time and historical financial market data via HTTP and WebSocket APIs.specifically designed for AI quantitative trading/training.Multiple Timeframes,Multiple-Symbols-Multiple-Timeframes Alignment"
 # Points to your README file for the long description on PyPI.
 readme = "README.md"
 # Specifies the Python versions your project supports.

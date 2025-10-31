@@ -164,7 +164,7 @@ class AiBusControl(BusControlMixin):
             try:
                 result_content = await agent.analyze(prompt,conversation_id=self.conversation_id)
                 if agent.output_parse:
-                    result_content=await agent.output_parse().ainvoke(result_content)
+                    result_content=await agent.output_parse.ainvoke(result_content)
                     if isinstance(result_content,dict|list):
                         result_content=json.dumps(result_content)
                     elif not isinstance(result_content,str):

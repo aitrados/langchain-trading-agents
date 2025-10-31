@@ -3,6 +3,7 @@ from common_lib_example import *
 from langchain_trading_agents.bus_controls.ai_bus_control import AiBusControl, GraphState
 from langchain_trading_agents.llm_model.sub_agents import ManagerAnalyst, DecisionMakerAnalyst
 model_config=get_llm_model_config(ModelProvider.OLLAMA)
+model_config.update(model_config_more_params)#custom prompt
 async def main():
     manager_ai=AiBusControl(ManagerAnalyst(**model_config),DecisionMakerAnalyst(**model_config))
     manager_ai.add_sub_agent(IndicatorAnalyst(**model_config),

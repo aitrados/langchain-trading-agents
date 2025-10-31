@@ -89,6 +89,8 @@ class BaseSubAgent:
             - Placeholders in placeholder_map will be replaced with actual content at runtime
             - Subclasses should set the department class attribute to determine the agent's department type
         """
+        if not provider or not model_name:
+            raise ValueError("Required parameters are missing: provider and model_name.please check config.toml")
         auto_load_global_config()
         self.provider=provider
         self.model_name=model_name

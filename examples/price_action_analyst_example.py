@@ -1,7 +1,8 @@
 from common_lib_example import *
 model_config=get_llm_model_config(ModelProvider.OLLAMA)
 async def main():
-    query="Please provide me with the daily and hourly charts for Bitcoin. Find the recent candlestick chart's resistance and support levels, and tell me the highest or lowest price at each level. I need your entry and exit points on these smaller timeframes. When answering, please be concise and provide specific prices for buy and sell orders. Avoid vague answers, as they will influence my AI's decision-making process."
+    query="Please analyze the daily and hourly charts for Bitcoin for the next few days. Identify the recent resistance and support levels on the candlestick charts, and tell me the corresponding high and low prices for each level, along with specific buy and sell prices. Please provide a concise and clear answer."
+    model_config.update(model_config_more_params)  # custom prompt
     indicator_analyst_llm=PriceActionAnalyst(**model_config)
     result=await indicator_analyst_llm.analyze(query)
     print("Analysis results:\n",result)

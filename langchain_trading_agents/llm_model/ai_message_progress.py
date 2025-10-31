@@ -12,7 +12,7 @@ from loguru import logger
 
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage, ToolMessage
 
-from langchain_trading_agents.contant import  ConvMessageType
+from langchain_trading_agents.contant import ConvMessageType, ModelProvider
 
 try:
     if os.getenv("LANGFUSE_SECRET_KEY", None) and os.getenv("LANGFUSE_PUBLIC_KEY", None) and os.getenv(
@@ -74,9 +74,11 @@ class AiMessageProcess:
             result = await self.__a_invoke(messages)
             res_messages = result.get("messages", [])
             last_message = res_messages[-1]
-            messages.extend(res_messages)
+
 
             if isinstance(last_message, AIMessage) and getattr(last_message, "tool_calls", None):
+                if self.sub_agent.provider != ModelProvider.OLLAMA:
+                    messages.extend(res_messages)
                 if not await self.append_tool_messages(last_message.tool_calls, messages):
                     break
             else:

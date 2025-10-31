@@ -5,6 +5,7 @@ model_config=get_llm_model_config(ModelProvider.OLLAMA)
 
 async def main():
     query="Could you check out the latest news about Bitcoin and analyze it for me?"
+    model_config.update(model_config_more_params)  # custom prompt
     indicator_analyst_llm=NewsAnalyst(**model_config)
     result=await indicator_analyst_llm.analyze(query)
     print("Analysis results:\n",result)
