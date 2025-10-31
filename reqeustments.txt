@@ -1,0 +1,11 @@
+langchain
+langgraph
+langchain-openai
+langchain-ollama
+langchain-google-genai
+langchain-anthropic
+langchain-deepseek
+langchain-xai
+langchain-huggingface
+langchain-community
+dashscope

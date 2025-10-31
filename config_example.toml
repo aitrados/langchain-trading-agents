@@ -1,0 +1,66 @@
+#[en,de,fr,ja,kr,ru,zh_cn,zh_tw]
+#langchain_trading_agents/assistive_tools/**system_prompt_words/**_lang.md
+default_system_prompt_lang="en"
+[llm_models]
+    [llm_models.ollama]
+    provider = "ollama"
+    base_url = "http://127.0.0.1:11434"
+    model_name = "gpt-oss:20b" #Required support call tools
+    temperature = 0
+
+    [llm_models.deepseek]
+    provider = "deepseek"
+    base_url = "https://api.deepseek.com/v1"
+    model_name = "deepseek-chat" #Required support call tools
+    api_key = "YOUR_SECRET_KEY"
+    temperature = 0.7
+
+
+    [llm_models.openai]
+    provider = "openai"
+    base_url = "https://api.openai.com/v1"
+    model_name = "gpt-4-turbo-preview" #Required support call tools
+    api_key = "YOUR_SECRET_KEY"
+    temperature = 0.7
+    max_tokens = 4096
+
+    [llm_models.gemini]
+    provider = "gemini"
+    base_url = "https://generativelanguage.googleapis.com/v1beta"
+    model_name = "gemini-1.5-pro" #Required support call tools
+    api_key = "YOUR_SECRET_KEY"
+    #temperature = 0.7
+    #max_tokens = 4096
+
+    [llm_models.anthropic]
+    provider = "anthropic"
+    base_url = "https://api.anthropic.com"
+    model_name = "claude-3-opus-20240229" #Required support call tools
+    api_key = "YOUR_SECRET_KEY"
+    temperature = 0.7
+    #max_tokens = 4096
+
+    [llm_models.qwen]
+    provider = "qwen"
+    #base_url = "https://dashscope.aliyuncs.com/api/v1"
+    model_name = "qwen-turbo" #Required support call tools
+    api_key = "YOUR_SECRET_KEY"
+    ##temperature = 0.7
+    #max_tokens = 2048
+
+
+    [llm_models.huggingface]
+    provider = "huggingface"
+    base_url = "https://api-inference.huggingface.co"
+    model_name = "microsoft/DialoGPT-medium" #Required support call tools
+    api_key = "YOUR_SECRET_KEY"
+    #temperature = 0.7
+    #max_tokens = 2048
+
+    [llm_models.xai]
+    provider = "xai"
+    #base_url = "https://api.x.ai/v1"
+    model_name = "grok-beta" #Required support call tools
+    api_key = "YOUR_SECRET_KEY"
+    #temperature = 0.7
+    #max_tokens = 4096

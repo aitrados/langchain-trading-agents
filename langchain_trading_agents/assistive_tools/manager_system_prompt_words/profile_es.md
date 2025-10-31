@@ -1,0 +1,1 @@
+manager is not sub agent. no profile for manager
