@@ -35,7 +35,7 @@ MANIFEST
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
-
+config.toml
 # Unit test / coverage reports
 htmlcov/
 .tox/
@@ -208,4 +208,4 @@ __marimo__/
 .idea/
 /examples/conversation_record/
 /donotshare/
-config.toml
+
