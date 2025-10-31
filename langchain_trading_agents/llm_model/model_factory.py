@@ -171,6 +171,8 @@ class HuggingfaceModel(BaseModelWrapper):
             raise ImportError(
                 "Unable to find `langchain_huggingface` package. Please execute `pip install langchain-huggingface` and configure HUGGINGFACE_API_KEY."
             )
+
+
         self.model = ChatHuggingFace(model=model_name, **kwargs)
 
     async def invoke(self, messages):

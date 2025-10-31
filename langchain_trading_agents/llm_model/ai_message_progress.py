@@ -33,12 +33,31 @@ class AiMessageProcess:
         self.conversation_id: str = None
 
     async def __a_invoke(self, messages: list):
-        if langfuse_handler:
-            result = await self.sub_agent._agent.ainvoke({"messages": messages},
-                                                         config={"callbacks": [langfuse_handler]})
-        else:
-            result = await self.sub_agent._agent.ainvoke({"messages": messages})
-        return result
+        try:
+            if langfuse_handler:
+                result = await self.sub_agent._agent.ainvoke({"messages": messages},
+                                                             config={"callbacks": [langfuse_handler]})
+            else:
+                result = await self.sub_agent._agent.ainvoke({"messages": messages})
+            return result
+        except Exception as e:
+
+            error=f"{e}"
+            if "does not support tools" in error:
+                raise Exception(f"LLM model ({self.sub_agent.provider} -> {self.sub_agent.model_name}) does not support tools,please change LLM model_model")
+            if (
+                    "All connection attempts failed" in error
+                    or "Connection refused" in error
+                    or "failed to establish a new connection" in error
+                    or "timed out" in error
+            ):
+                raise ConnectionError(
+                    f"Network connection failed: unable to connect to the LLM service ({self.sub_agent.provider} -> {self.sub_agent.model_name})."
+                    f" Please check the network, proxy, service URL, and credentials. Original error: {error}"
+                ) from e
+
+            raise
+
 
     async def a_invoke(self, user_query, conversation_id: str = None):
         if not conversation_id:

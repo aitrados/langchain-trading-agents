@@ -1,5 +1,5 @@
 from abc import ABC
-
-
 class BusControlMixin(ABC):
-    pass
+    def __init__(self):
+
+        pass

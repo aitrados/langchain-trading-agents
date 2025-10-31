@@ -13,6 +13,7 @@ async def main():
         "role_prompt_file_or_url": None,
         "profile_file_or_url": None,
         "placeholder_map": None,
+        "output_parser":None
     }
     model_config.update(more_params)
     indicator_analyst_llm=IndicatorAnalyst(**model_config)

@@ -47,8 +47,20 @@ classifiers = [
 # --- Dependencies ---
 # A list of other packages that your project needs to run.
 dependencies = [
-    "finance-trading-ai-agents-mcp",
+  "finance-trading-ai-agents-mcp>=0.0.6",
+  "langchain>=1.0.3",
+  "langgraph>=1.0.2",
+  "langchain-openai>=1.0.1",
+  "langchain-ollama>=1.0.0",
+  "langchain-google-genai>=3.0.0",
+  "langchain-anthropic>=1.0.1",
+  "langchain-deepseek>=1.0.0",
+  "langchain-xai>=1.0.0",
+  "langchain-huggingface>=1.0.0",
+  "langchain-community>=0.4.1",
+  "dashscope>=1.24.9",
 ]
+
 
 # --- Project URLs ---
 # These links will be displayed on your PyPI project page.

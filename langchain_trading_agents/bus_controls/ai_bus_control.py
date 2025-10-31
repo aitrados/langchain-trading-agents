@@ -67,6 +67,7 @@ class AiBusControl(BusControlMixin):
         # Build and compile the graph at initialization, only once.
         self._build_workflow()
         self.conversation_id:str=None
+        super().__init__()
 
     def _build_workflow(self):
         """Builds the workflow graph. This is called only once during initialization."""
@@ -162,6 +163,12 @@ class AiBusControl(BusControlMixin):
 
             try:
                 result_content = await agent.analyze(prompt,conversation_id=self.conversation_id)
+                if agent.output_parse:
+                    result_content=await agent.output_parse().ainvoke(result_content)
+                    if isinstance(result_content,dict|list):
+                        result_content=json.dumps(result_content)
+                    elif not isinstance(result_content,str):
+                        result_content=str(result_content)
 
                 logger.success(f"✅ {department}: {agent.nickname} analysis complete.")
                 return {"department": department, "result": result_content}

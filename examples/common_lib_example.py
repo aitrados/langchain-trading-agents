@@ -5,7 +5,6 @@ from aitrados_api.common_lib.tools.toml_manager import TomlManager
 from examples.my_async_subscriber import MyAsyncSubscriber
 from langchain_trading_agents.utils.common_utils import get_llm_model_config
 
-TomlManager.load_toml_file()
 
 from langchain_trading_agents.contant import ModelProvider, LLM_CONVERSATION_SUB_TOPIC
 from langchain_trading_agents.llm_model.sub_agents import IndicatorAnalyst,PriceActionAnalyst,EventAnalyst,NewsAnalyst

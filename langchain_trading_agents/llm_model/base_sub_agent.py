@@ -1,6 +1,8 @@
 import json
 import uuid
 from copy import deepcopy
+from datetime import datetime
+from typing import Optional
 
 from aitrados_api.common_lib.tools.toml_manager import TomlManager
 from fastmcp import Client
@@ -10,6 +12,7 @@ from finance_trading_ai_agents_mcp.assistive_tools.mcp_tools_converter import Mc
 from finance_trading_ai_agents_mcp.parameter_validator.analysis_departments import analysis_department
 
 from langchain.agents import create_agent
+from langchain_core.output_parsers import JsonOutputParser, StrOutputParser, ListOutputParser, XMLOutputParser
 
 from langchain_trading_agents.assistive_tools.assistive_tools_utils import auto_replace_string_placeholder, \
     get_all_traditional_indicator_names, get_analyst_prompt
@@ -18,6 +21,8 @@ from langchain_trading_agents.llm_model.ai_message_progress import AiMessageProc
 from langchain_trading_agents.llm_model.model_factory import get_llm_model
 
 from aitrados_api.trade_middleware.publisher import async_publisher_instance
+
+from langchain_trading_agents.utils.common_utils import auto_load_global_config
 
 
 class BaseSubAgent:
@@ -33,6 +38,7 @@ class BaseSubAgent:
                  role_prompt_file_or_url:str=None,
                  profile_file_or_url:str=None,
                  placeholder_map: dict = None,
+                 output_parser:Optional[JsonOutputParser|StrOutputParser|ListOutputParser|XMLOutputParser]=None,
                  **kwargs):
         """
         Initialize the base sub-agent.
@@ -69,6 +75,7 @@ class BaseSubAgent:
                                                     {basic_system_function_call_prompt}
                                                     {all_traditional_indicator_names}
                                                     {available_agent_profiles}
+                                                    {current_datetime}
 
             **kwargs: Other parameters passed to the LLM model, such as temperature, max_tokens, etc.
 
@@ -82,7 +89,9 @@ class BaseSubAgent:
             - Placeholders in placeholder_map will be replaced with actual content at runtime
             - Subclasses should set the department class attribute to determine the agent's department type
         """
-
+        auto_load_global_config()
+        self.provider=provider
+        self.model_name=model_name
         self.system_prompt_lang = system_prompt_lang
         self.role_prompt = role_prompt
         self.model = get_llm_model(provider, model_name, **kwargs)
@@ -91,6 +100,7 @@ class BaseSubAgent:
         self.placeholder_map = placeholder_map or {}
         self.role_prompt_file_or_url = role_prompt_file_or_url
         self.profile_file_or_url = profile_file_or_url
+        self.output_parse=output_parser
 
         self._agent = None
         self._bus_control = None
@@ -124,6 +134,8 @@ class BaseSubAgent:
             self.model_config.pop("api_key")
         if "secret_key" in self.model_config:
             self.model_config.pop("secret_key")
+        if "token" in self.model_config:
+            self.model_config.pop("secret_key")
 
         if params["nickname"]:
             self.nickname = params["nickname"]
@@ -154,6 +166,9 @@ class BaseSubAgent:
                 return False
             return True
 
+
+        if _is_append("current_datetime"):
+            self.placeholder_map["current_datetime"]=datetime.now().astimezone().isoformat()
         if _is_append("basic_system_function_call_prompt"):
             self.placeholder_map["basic_system_function_call_prompt"] = get_basic_system_function_call_prompt(
                 self.system_prompt_lang)

@@ -91,8 +91,8 @@ class LangchainConversationOperation:
         try:
             # Format timestamp
             try:
-                timestamp = datetime.fromisoformat(conv.timestamp.replace('Z', '+00:00'))
-                formatted_time = timestamp.strftime("%Y-%m-%d %H:%M:%S")
+                timestamp = datetime.fromisoformat(conv.timestamp)
+                formatted_time = timestamp.strftime("%Y-%m-%d %H:%M:%S%z")
             except:
                 formatted_time = conv.timestamp
 
