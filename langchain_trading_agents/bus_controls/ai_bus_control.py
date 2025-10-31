@@ -1,5 +1,3 @@
-import uuid
-
 from loguru import logger
 from langchain_trading_agents.bus_controls.bus_control_mixin import BusControlMixin
 import asyncio
@@ -14,6 +12,9 @@ from pydantic import BaseModel, Field
 from langchain_trading_agents.llm_model.sub_agents import BaseSubAgent,  ManagerAnalyst, DecisionMakerAnalyst
 
 from langgraph.graph import StateGraph, END
+
+from langchain_trading_agents.utils.common_utils import get_or_create_conversation_id
+
 
 class AgentTask(BaseModel):
     department: str = Field(description="The name of the department to which this task should be assigned.")
@@ -115,7 +116,8 @@ class AiBusControl(BusControlMixin):
         Returns:
             The final result from the decision-maker node.
         """
-        self.conversation_id = conversation_id or f"conv_{uuid.uuid4().hex[:8]}"
+        self.conversation_id = get_or_create_conversation_id(conversation_id)
+
         if not self.sub_agent_registry:
             raise ValueError("At least one sub-agent must be added. Use the self.add_sub_agent method to add an analysis department.")
         if not user_query:

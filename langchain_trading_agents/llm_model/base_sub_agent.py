@@ -1,5 +1,4 @@
 import json
-import uuid
 from copy import deepcopy
 from datetime import datetime
 from typing import Optional
@@ -22,7 +21,7 @@ from langchain_trading_agents.llm_model.model_factory import get_llm_model
 
 from aitrados_api.trade_middleware.publisher import async_publisher_instance
 
-from langchain_trading_agents.utils.common_utils import auto_load_global_config
+from langchain_trading_agents.utils.common_utils import auto_load_global_config, get_or_create_conversation_id
 
 
 class BaseSubAgent:
@@ -209,7 +208,8 @@ class BaseSubAgent:
         await async_publisher_instance.a_send_topic(LLM_CONVERSATION_SUB_TOPIC, conv_data)
 
     async def analyze_without_tools(self, user_query: str, conversation_id: str = None, ):
-        self.conversation_id = conversation_id or f"conv_{uuid.uuid4().hex[:8]}"
+        self.conversation_id = get_or_create_conversation_id(conversation_id)
+
         self.init_data()
 
 
@@ -227,7 +227,7 @@ class BaseSubAgent:
         return result
 
     async def analyze(self, user_query: str, conversation_id: str = None, ):
-        self.conversation_id = conversation_id or f"conv_{uuid.uuid4().hex[:8]}"
+        self.conversation_id = get_or_create_conversation_id(conversation_id)
         self.init_data()
 
 

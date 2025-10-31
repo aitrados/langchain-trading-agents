@@ -24,7 +24,8 @@ OHLC_LIMIT_FOR_LLM=30
 ##OHLC_COLUMN_NAMES_FOR_LLM:Filter out redundant column names for LLM input. The column names should be separated by commas.
 #OHLC_COLUMN_NAMES_FOR_LLM=timeframe,close_datetime,open,high,low,close,volume
 
-
+GOOGLE_API_KEY=your-api-key
+OPENAI_API_KEY="your_api_key_here"
 
 #LANGFUSE_SECRET_KEY = "sk-xx"
 #LANGFUSE_PUBLIC_KEY = "pk-xx"

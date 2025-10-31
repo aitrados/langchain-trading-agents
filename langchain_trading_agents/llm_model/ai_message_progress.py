@@ -73,6 +73,7 @@ class AiMessageProcess:
                     f"Network connection failed: unable to connect to the LLM service ({self.sub_agent.provider} -> {self.sub_agent.model_name})."
                     f" Please check the network, proxy, service URL, and credentials. Original error: {error}"
                 ) from e
+            logger.error(f"AI invocation error in {self.sub_agent.department}:{self.sub_agent.nickname} - {error}. Maybe network problems")
 
             raise
 
