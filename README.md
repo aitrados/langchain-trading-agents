@@ -44,7 +44,14 @@ ai_report_screenshot.png
 
 ### Install
 ```bash
-pip install langchain-trading-agents
+pip install -U langchain-trading-agents 
+```
+#### From source
+```bash
+git clone https://github.com/aitrados/langchain-trading-agents.git
+cd langchain-trading-agents
+pip install -r requirements.txt
+#pip install -e .
 ```
 
 ### Save your `.env` to the project root
@@ -192,10 +199,15 @@ Parameters:
   - Description: Parser instance or class name for parsing sub-agent output (e.g., JsonOutputParser, StrOutputParser). Only used for sub-agents.
   - Example: JsonOutputParser(),StrOutputParser()
 
-
+### 📐 Built-in prompts
+- [Decision maker system prompt words Deutsch,English,Français,日本語,한국어,Español,Русский,简体中文,繁体中文](https://github.com/aitrados/langchain-trading-agents/blob/main/langchain_trading_agents/assistive_tools/decision_maker_system_prompt_words)
+- [Manager system prompt words Deutsch,English,Français,日本語,한국어,Español,Русский,简体中文,繁体中文](https://github.com/aitrados/langchain-trading-agents/blob/main/langchain_trading_agents/assistive_tools/manager_system_prompt_words)
+- [Price action analyst system prompt words Deutsch,English,Français,日本語,한국어,Español,Русский,简体中文,繁体中文](https://github.com/aitrados/langchain-trading-agents/blob/main/langchain_trading_agents/assistive_tools/price_action_system_prompt_words)
+- [Traditional indicator analyst system prompt words Deutsch,English,Français,日本語,한국어,Español,Русский,简体中文,繁体中文](https://github.com/aitrados/langchain-trading-agents/blob/main/langchain_trading_agents/assistive_tools/traditional_indicator_system_prompt_words)
+- [Economic calendar analyst system prompt words Deutsch,English,Français,日本語,한국어,Español,Русский,简体中文,繁体中文](https://github.com/aitrados/langchain-trading-agents/blob/main/langchain_trading_agents/assistive_tools/economic_calendar_system_prompt_words)
+- [News analyst system prompt words Deutsch,English,Français,日本語,한국어,Español,Русский,简体中文,繁体中文](https://github.com/aitrados/langchain-trading-agents/blob/main/langchain_trading_agents/assistive_tools/news_system_prompt_words)
 
 ## 🏗️ Architecture Benefits
-
 ### Multi-Agent Collaboration
 Each agent has a unique expertise and personality:
 - 🧠 Specialized roles — each agent focuses on a particular analysis area
