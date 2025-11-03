@@ -8,6 +8,12 @@ An AI trading agents platform built on LangChain that provides free real-time an
 
 `langchain-trading-agents` is an entry-level toolkit that helps newcomers quickly learn how multi-agent collaboration works in financial scenarios. It uses intuitive API names and integrates free real-time data features from `finance-trading-ai-agents-mcp` and `aitrados-api`.
 
+## 💬 Community & Support
+
+[![WeChat Group](https://img.shields.io/badge/💬_微信讨论群-07C160?style=for-the-badge&logo=wechat&logoColor=white)](https://docs.aitrados.com/wechat_group.png)
+[![Discord](https://img.shields.io/badge/🎮_Discord_Community-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/aNjVgzZQqe)
+
+Join our community for discussions, support, and updates!
 ## ✨ Key Features
 
 ### 🎯 Free Real-time Financial Data
