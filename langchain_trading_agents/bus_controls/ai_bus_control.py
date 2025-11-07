@@ -134,7 +134,11 @@ class AiBusControl(BusControlMixin):
 
 
         logger.info("🫡 Fund manager is thinking...")
-        response_str=await self.manager_analyst.analyze_without_tools(state['original_query'],conversation_id=self.conversation_id)
+        if self.manager_analyst.custom_mcp_department:
+            response_str=await self.manager_analyst.analyze(state['original_query'],conversation_id=self.conversation_id)
+        else:
+            response_str = await self.manager_analyst.analyze_without_tools(state['original_query'],
+                                                                            conversation_id=self.conversation_id)
         try:
             plan_list=await JsonOutputParser().ainvoke(response_str)
             plan_tasks = [AgentTask(**item) for item in plan_list]
@@ -198,7 +202,10 @@ class AiBusControl(BusControlMixin):
         self.decision_maker_analyst.placeholder_map["manager_collected_reports"]=manager_collected_reports
 
         logger.info("🤬 Decision maker is making a decision...")
-        decision_maker_summary=await self.decision_maker_analyst.analyze_without_tools(state['original_query'],conversation_id=self.conversation_id)
+        if self.decision_maker_analyst.custom_mcp_department:
+            decision_maker_summary = await self.decision_maker_analyst.analyze(state['original_query'],conversation_id=self.conversation_id)
+        else:
+            decision_maker_summary=await self.decision_maker_analyst.analyze_without_tools(state['original_query'],conversation_id=self.conversation_id)
 
         logger.success("✅ Final report generated successfully.")
         return {"decision_maker_summary": decision_maker_summary}

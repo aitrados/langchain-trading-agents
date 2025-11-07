@@ -1,7 +1,7 @@
 import json
 from copy import deepcopy
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 from aitrados_api.common_lib.tools.toml_manager import TomlManager
 from fastmcp import Client
@@ -28,6 +28,8 @@ class BaseSubAgent:
     nickname = "anonymous"
     department = "unknown"
 
+
+
     def __init__(self, provider: str,
                  model_name: str,
                  role_prompt: str = None,
@@ -37,6 +39,7 @@ class BaseSubAgent:
                  role_prompt_file_or_url:str=None,
                  profile_file_or_url:str=None,
                  placeholder_map: dict = None,
+                 custom_mcp_department:Optional[List[str]|str]=None,
                  output_parser:Optional[JsonOutputParser|StrOutputParser|ListOutputParser|XMLOutputParser]=None,
                  **kwargs):
         """
@@ -75,6 +78,8 @@ class BaseSubAgent:
                                                     {all_traditional_indicator_names}
                                                     {available_agent_profiles}
                                                     {current_datetime}
+            custom_mcp_department:Optional[List[str]|str]:custom_mcp_department values are from http://127.0.0.1:11999/mcp_servers.json.
+            example: Trading account information can be accessed by both decision-makers and managers. Therefore, custom_mcp_department="broker"
 
             **kwargs: Other parameters passed to the LLM model, such as temperature, max_tokens, etc.
 
@@ -88,6 +93,7 @@ class BaseSubAgent:
             - Placeholders in placeholder_map will be replaced with actual content at runtime
             - Subclasses should set the department class attribute to determine the agent's department type
         """
+
         if not provider or not model_name:
             raise ValueError("Required parameters are missing: provider and model_name.please check config.toml")
         auto_load_global_config()
@@ -99,6 +105,7 @@ class BaseSubAgent:
         self.profile = profile
         self.temperature=kwargs.get("temperature",0)
         self.placeholder_map = placeholder_map or {}
+        self.custom_mcp_department=custom_mcp_department
         self.role_prompt_file_or_url = role_prompt_file_or_url
         self.profile_file_or_url = profile_file_or_url
         self.output_parse=output_parser
@@ -226,12 +233,19 @@ class BaseSubAgent:
         result = await op.a_invoke(user_query, conversation_id=conversation_id)
         return result
 
+
+
     async def analyze(self, user_query: str, conversation_id: str = None, ):
         self.conversation_id = get_or_create_conversation_id(conversation_id)
         self.init_data()
+        temp_department=self.department
+        if self.custom_mcp_department:
+            temp_department=self.custom_mcp_department
 
 
-        async with AitradosMcpClient(departments=self.department) as mcp_client:
+
+
+        async with AitradosMcpClient(departments=temp_department) as mcp_client:
             client: Client = mcp_client.client
             tools = await McpListToolsConverter(client).get_result(output_type="list")
             self._agent = create_agent(

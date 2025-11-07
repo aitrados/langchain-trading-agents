@@ -5,7 +5,7 @@ from langchain_trading_agents.llm_model.sub_agents import ManagerAnalyst, Decisi
 model_config=get_llm_model_config(ModelProvider.OLLAMA)
 model_config.update(model_config_more_params)#custom prompt
 async def main():
-    manager_ai=AiBusControl(ManagerAnalyst(**model_config),DecisionMakerAnalyst(**model_config))
+    manager_ai=AiBusControl(ManagerAnalyst(**model_config),DecisionMakerAnalyst(**model_config,custom_mcp_department=analysis_department.BROKER))
     manager_ai.add_sub_agent(IndicatorAnalyst(**model_config),
                              PriceActionAnalyst(**model_config),
                              NewsAnalyst(**model_config),

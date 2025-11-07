@@ -7,7 +7,7 @@ build-backend = "hatchling.build"
 # The name users will use to install your package via pip.
 name = "langchain-trading-agents"
 # The initial version of your package. You must increment this for every new release.
-version = "0.0.11"
+version = "0.0.12"
 
 # --- Recommended Fields ---
 authors = [
@@ -47,7 +47,7 @@ classifiers = [
 # --- Dependencies ---
 # A list of other packages that your project needs to run.
 dependencies = [
-  "finance-trading-ai-agents-mcp>=0.0.6",
+  "finance-trading-ai-agents-mcp>=0.0.9",
   "langchain>=1.0.3",
   "langgraph>=1.0.2",
   "langchain-openai>=1.0.1",

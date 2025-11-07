@@ -79,7 +79,11 @@ default_system_prompt_lang="en"
     model_name = "gpt-oss:20b" #Required support call tools
     temperature = 0
 
+    
     #more providers below
+    #also, you can add IBKR,COINBASE,CHINA STOCK/FUTURES CTP,Binance,etc brokers here
+# add broker account to mcp,get example config_example.toml]
+# Prefer using demo accounts for trading and optimize prompt words
 ```
 More toml configurations:
 [config_example.toml](https://github.com/aitrados/langchain-trading-agents/blob/main/config_example.toml)
@@ -115,6 +119,7 @@ async def main():
         "role_prompt_file_or_url": None,#you can Custom system prompt from a file or url.
         "profile_file_or_url": None,#  Custom Self-introduction from a file or url.
         "placeholder_map": None,#Automatic replace role_prompt and profile {placeholder}
+        #"custom_mcp_department":None,#get custom_mcp_department name from http://127.0.0.1:11999/mcp_servers.json .example: Decision Maker maybe need broker trading account information
         "output_parser":None #parser instance.auto parse JSON,STR,XML,LIST class name.Optional[JsonOutputParser|StrOutputParser|ListOutputParser|XMLOutputParser].only use for sub agent.
     }
     #model_config.update(model_config_more_params)
@@ -200,6 +205,9 @@ Parameters:
       - {available_agent_profiles}
       - {current_datetime}
 
+- custom_mcp_department (Optional[List[str] | str]) — Default: None
+  - Description: Specify one or more MCP department names that the agent can access. Values should match entries from `http://127.0.0.1:11999/mcp_servers.json`.
+  - Example: Trading account information can be accessed by both decision-makers and managers. Therefore, custom_mcp_department="broker"
 
 - output_parser (instance | str | None) — Default: None
   - Description: Parser instance or class name for parsing sub-agent output (e.g., JsonOutputParser, StrOutputParser). Only used for sub-agents.

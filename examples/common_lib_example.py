@@ -30,6 +30,7 @@ model_config_more_params={
     "role_prompt_file_or_url": None,#you can Custom system prompt from a file or url.
     "profile_file_or_url": None,#  Custom Self-introduction from a file or url.
     "placeholder_map": None,#Automatic replace role_prompt and profile {placeholder}
+    #"custom_mcp_department":None,#get custom_mcp_department name from http://127.0.0.1:11999/mcp_servers.json .example: Decision Maker maybe need broker trading account information
     "output_parser":None #parser instance.auto parse JSON,STR,XML,LIST class name.Optional[JsonOutputParser|StrOutputParser|ListOutputParser|XMLOutputParser].only use for sub agent.
 }
 """
