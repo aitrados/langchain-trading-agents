@@ -12,6 +12,7 @@ from finance_trading_ai_agents_mcp.parameter_validator.analysis_departments impo
 
 from langchain.agents import create_agent
 from langchain_core.output_parsers import JsonOutputParser, StrOutputParser, ListOutputParser, XMLOutputParser
+from loguru import logger
 
 from langchain_trading_agents.assistive_tools.assistive_tools_utils import auto_replace_string_placeholder, \
     get_all_traditional_indicator_names, get_analyst_prompt
@@ -246,6 +247,16 @@ class BaseSubAgent:
 
 
         async with AitradosMcpClient(departments=temp_department) as mcp_client:
+            if not mcp_client.client:
+                erro=f"""MCP server for department '{temp_department}' not found in MCP configuration.check them on http://127.0.0.1:11999/mcp_servers.json
+                        Possible causes:
+                        The local MCP server is not running. you can run 'finance-trading-ai-agents-mcp' command to start it with the most simple way.
+                        If the department is broker, have you configured MCP to automatically start trading accounts? Check config.toml and the auto_run_brokers=['your-broker-key'] setting.Or remove 'custom_mcp_department' parameter on the {self.department} department.
+                """
+
+                logger.error(erro)
+                return erro
+
             client: Client = mcp_client.client
             tools = await McpListToolsConverter(client).get_result(output_type="list")
             self._agent = create_agent(
